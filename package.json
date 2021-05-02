@@ -7,13 +7,17 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MityaDementiy/frontend-testing-react-project-lvl1.git"
   },
   "author": "Mitya Dementiy",
+  "type": "module",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/issues"
