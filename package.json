@@ -2,6 +2,9 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Page loader with tests",
+  "bin": {
+    "tester": "bin/tester.js"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
