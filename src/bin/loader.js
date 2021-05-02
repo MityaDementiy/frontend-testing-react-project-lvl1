@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 
-import loader from '../index';
+const program = require('commander');
 
-loader();
+const loader = require('../index');
+
+program
+  .description('Loads page')
+  .arguments('<pageUrl>')
+  .action((pageUrl) => {
+    console.log(loader(pageUrl));
+  })
+  .parse(process.argv);
+
+if (!program.args.length) program.help();
