@@ -1,4 +1,4 @@
-load:
+start:
 	npx babel-node -- src/bin/loader.js
 
 test:

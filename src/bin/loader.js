@@ -7,8 +7,9 @@ import loader from '../index';
 program
   .description('Loads page')
   .arguments('<pageUrl>')
-  .action(async (pageUrl) => {
-    console.log(await loader(pageUrl));
+  .option('-o, --output [path]', 'choose output path', process.cwd())
+  .action(async (pageUrl, options) => {
+    console.log(await loader(pageUrl, options.output));
   })
   .parse(process.argv);
 
