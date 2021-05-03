@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const program = require('commander');
+import program from 'commander';
 
-const loader = require('../index');
+import loader from '../index';
 
 program
   .description('Loads page')

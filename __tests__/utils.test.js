@@ -1,8 +1,10 @@
 import formatUrl from '../src/utils';
 
-test('test formatter', async () => {
-  const rawUrl = 'https://ru.hexlet.io';
-  const formattedUrl = formatUrl(rawUrl);
+test('test formatter', () => {
+  const rawUrl = 'https://ru.hexlet.io/courses';
+  const formattedUrl = 'ru-hexlet-io-courses.html';
+  const processedUrl = formatUrl(rawUrl);
 
-  expect(rawUrl).toEqual(formattedUrl);
+  expect(rawUrl).not.toEqual(processedUrl);
+  expect(processedUrl).toEqual(formattedUrl);
 });
