@@ -14,7 +14,6 @@
     "url": "git+https://github.com/MityaDementiy/frontend-testing-react-project-lvl1.git"
   },
   "author": "Mitya Dementiy",
-  "type": "module",
   "jest": {
     "testEnvironment": "node"
   },
@@ -26,6 +25,7 @@
   "devDependencies": {
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
+    "@babel/preset-env": "^7.14.0",
     "babel-jest": "^26.6.3",
     "eslint": "^7.24.0",
     "eslint-config-airbnb": "^18.2.1",
