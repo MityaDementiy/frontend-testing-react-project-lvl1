@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Page loader with tests",
   "bin": {
-    "page-loader": "bin/loader.js"
+    "page-loader": "dist/bin/loader.js"
   },
   "main": "src/index.js",
   "scripts": {
