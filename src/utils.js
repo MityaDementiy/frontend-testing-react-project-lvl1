@@ -16,3 +16,10 @@ export const get = (url) => axios.get(url)
   .then((response) => response.data)
   .then((data) => data)
   .catch((err) => console.log(err.message));
+
+export const makeFileDirectoryUrl = (fileName) => {
+  const splittedUrl = fileName.split('.');
+  const fileDirectoryUrl = `${splittedUrl[0]}_files`;
+
+  return fileDirectoryUrl;
+};
