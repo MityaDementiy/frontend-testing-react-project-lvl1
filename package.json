@@ -44,6 +44,7 @@
   "dependencies": {
     "@jest/environment": "^26.6.2",
     "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.6",
     "commander": "^7.2.0",
     "nock": "^13.0.11",
     "os": "^0.1.1"
