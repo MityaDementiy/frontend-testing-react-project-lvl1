@@ -2,7 +2,9 @@ import nock from 'nock';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-import { formatUrl, get, makeFileDirectoryUrl } from '../src/utils';
+import {
+  formatUrl, get, makeFileDirectoryUrl, makeImageUrl,
+} from '../src/utils';
 
 beforeAll(() => {
   nock.disableNetConnect();
@@ -40,4 +42,17 @@ test('test file directory formatter', () => {
   const result = makeFileDirectoryUrl(fileUrl);
 
   expect(result).toEqual(expected);
+});
+
+test('test image url formatter', () => {
+  const relativeImageUrl = 'assets/professions/nodejs.png';
+  const absoluteImageUrl = 'https://ru.hexlet.io/assets/professions/nodejs.png';
+  const directory = 'ru-hexlet-io-courses_files';
+  const requestUrl = 'https://ru.hexlet.io';
+  const result1 = makeImageUrl(relativeImageUrl, directory, requestUrl);
+  const result2 = makeImageUrl(absoluteImageUrl, directory, requestUrl);
+  const expected = 'ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png';
+
+  expect(result1).toEqual(expected);
+  expect(result2).toEqual(expected);
 });

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import path from 'path';
 
 export const formatUrl = (url) => {
   const urlObj = new URL(url);
@@ -22,4 +23,30 @@ export const makeFileDirectoryUrl = (fileName) => {
   const fileDirectoryUrl = `${splittedUrl[0]}_files`;
 
   return fileDirectoryUrl;
+};
+
+export const makeImageUrl = (imageUrl, directoryPath, requestUrl) => {
+  if (imageUrl.startsWith('http')) {
+    const urlObj = new URL(imageUrl);
+    const { hostname, pathname } = urlObj;
+    const stringifyedUrl = `${hostname}${pathname}`;
+    const separators = new RegExp('\\W');
+    const splitted = stringifyedUrl.split(separators);
+    const fileExt = splitted.pop();
+    const joined = splitted.join('-');
+    const result = `${directoryPath}/${joined}.${fileExt}`;
+    return result;
+  }
+  const requestUrlObj = new URL(requestUrl);
+  const { origin } = requestUrlObj;
+  const absoluteImageUrl = path.join(origin, imageUrl);
+  const urlObj = new URL(absoluteImageUrl);
+  const { hostname, pathname } = urlObj;
+  const stringifyedUrl = `${hostname}${pathname}`;
+  const separators = new RegExp('\\W');
+  const splitted = stringifyedUrl.split(separators);
+  const fileExt = splitted.pop();
+  const joined = splitted.join('-');
+  const result = `${directoryPath}/${joined}.${fileExt}`;
+  return result;
 };
