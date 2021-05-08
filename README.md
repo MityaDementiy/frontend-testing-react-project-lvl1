@@ -4,3 +4,6 @@
 First step demo:
 
 [![asciicast](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy.svg)](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy)
+
+Second step demo: 
+[![asciicast](https://asciinema.org/a/WyygOSuJV8ZrwCXyinULXogku.svg)](https://asciinema.org/a/WyygOSuJV8ZrwCXyinULXogku)

@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Page loader with tests",
   "bin": {
     "page-loader": "dist/bin/loader.js"
