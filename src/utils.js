@@ -1,4 +1,6 @@
 import axios from 'axios';
+import cheerio from 'cheerio';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 export const formatUrl = (url) => {
@@ -26,6 +28,10 @@ export const makeFileDirectoryUrl = (fileName) => {
 };
 
 export const makeImageUrl = (imageUrl, directoryPath, requestUrl) => {
+  if (!imageUrl) {
+    return;
+  }
+
   if (imageUrl.startsWith('http')) {
     const urlObj = new URL(imageUrl);
     const { hostname, pathname } = urlObj;

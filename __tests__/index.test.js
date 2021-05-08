@@ -20,6 +20,8 @@ beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
 });
 
+const getFixturePath = (name) => path.join('__fixtures__', name);
+
 test('test loader', async () => {
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'hello');
 
@@ -30,3 +32,4 @@ test('test loader', async () => {
   expect(scope.isDone).toBeTruthy();
   expect(result.endsWith('ru-hexlet-io-courses.html')).toBe(true);
 });
+
