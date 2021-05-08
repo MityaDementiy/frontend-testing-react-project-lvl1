@@ -23,9 +23,11 @@ beforeEach(async () => {
 const getFixturePath = (name) => path.join('__fixtures__', name);
 
 test('test loader', async () => {
-  const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, 'hello');
+  const data = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+  const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, data);
 
   const result = await loader('https://ru.hexlet.io/courses', tempDir);
+  console.log("🚀 ~ file: index.test.js ~ line 29 ~ test ~ result", result)
   const expected = `${tempDir}/ru-hexlet-io-courses.html`;
 
   expect(result).toEqual(expected);
