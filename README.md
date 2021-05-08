@@ -5,5 +5,6 @@ First step demo:
 
 [![asciicast](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy.svg)](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy)
 
-Second step demo: 
+Second step demo:
+
 [![asciicast](https://asciinema.org/a/CRvhK7Yw0iJw49ctRre27ByT2.svg)](https://asciinema.org/a/CRvhK7Yw0iJw49ctRre27ByT2)
