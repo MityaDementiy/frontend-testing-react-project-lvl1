@@ -27,9 +27,9 @@ test('test loader', async () => {
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, data);
 
   const result = await loader('https://ru.hexlet.io/courses', tempDir);
-  console.log("🚀 ~ file: index.test.js ~ line 29 ~ test ~ result", result)
+  
   const expected = `${tempDir}/ru-hexlet-io-courses.html`;
-
+  
   expect(result).toEqual(expected);
   expect(scope.isDone).toBeTruthy();
   expect(result.endsWith('ru-hexlet-io-courses.html')).toBe(true);
