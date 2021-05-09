@@ -8,3 +8,7 @@ First step demo:
 Second step demo:
 
 [![asciicast](https://asciinema.org/a/CRvhK7Yw0iJw49ctRre27ByT2.svg)](https://asciinema.org/a/CRvhK7Yw0iJw49ctRre27ByT2)
+
+Third step demo: 
+
+[![asciicast](https://asciinema.org/a/bKvglYXanZxsjoBAti34JbTXL.svg)](https://asciinema.org/a/bKvglYXanZxsjoBAti34JbTXL)
