@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 import {
-  formatUrl, get, makeFileDirectoryUrl, makeImageUrl,
+  formatUrl, get, makeFileDirectoryUrl, makeAssetUrl, hasAssets,
 } from '../src/utils';
 
 beforeAll(() => {
@@ -49,10 +49,18 @@ test('test image url formatter', () => {
   const absoluteImageUrl = 'https://ru.hexlet.io/assets/professions/nodejs.png';
   const directory = 'ru-hexlet-io-courses_files';
   const requestUrl = 'https://ru.hexlet.io';
-  const result1 = makeImageUrl(relativeImageUrl, directory, requestUrl);
-  const result2 = makeImageUrl(absoluteImageUrl, directory, requestUrl);
+  const result1 = makeAssetUrl(relativeImageUrl, directory, requestUrl);
+  const result2 = makeAssetUrl(absoluteImageUrl, directory, requestUrl);
   const expected = 'ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png';
 
   expect(result1).toEqual(expected);
   expect(result2).toEqual(expected);
+});
+
+test('test hasAssets', () => {
+  const imagesLinks = [];
+  const nonEmptyImagesLinks = ['https://ru.hexlet.io/assets/professions/nodejs.png'];
+
+  expect(hasAssets(imagesLinks)).toBeFalsy();
+  expect(hasAssets(nonEmptyImagesLinks)).toBeTruthy();
 });

@@ -27,13 +27,13 @@ export const makeFileDirectoryUrl = (fileName) => {
   return fileDirectoryUrl;
 };
 
-export const makeImageUrl = (imageUrl, directoryPath, requestUrl) => {
-  if (!imageUrl) {
+export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
+  if (!assetUrl) {
     return;
   }
 
-  if (imageUrl.startsWith('http')) {
-    const urlObj = new URL(imageUrl);
+  if (assetUrl.startsWith('http')) {
+    const urlObj = new URL(assetUrl);
     const { hostname, pathname } = urlObj;
     const stringifyedUrl = `${hostname}${pathname}`;
     const separators = new RegExp('\\W');
@@ -45,7 +45,7 @@ export const makeImageUrl = (imageUrl, directoryPath, requestUrl) => {
   }
   const requestUrlObj = new URL(requestUrl);
   const { origin } = requestUrlObj;
-  const absoluteImageUrl = path.join(origin, imageUrl);
+  const absoluteImageUrl = path.join(origin, assetUrl);
   const urlObj = new URL(absoluteImageUrl);
   const { hostname, pathname } = urlObj;
   const stringifyedUrl = `${hostname}${pathname}`;
@@ -56,3 +56,5 @@ export const makeImageUrl = (imageUrl, directoryPath, requestUrl) => {
   const result = `${directoryPath}/${joined}.${fileExt}`;
   return result;
 };
+
+export const hasAssets = (images) => images.length > 0;
