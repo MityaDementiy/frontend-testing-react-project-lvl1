@@ -12,3 +12,7 @@ Second step demo:
 Third step demo: 
 
 [![asciicast](https://asciinema.org/a/bKvglYXanZxsjoBAti34JbTXL.svg)](https://asciinema.org/a/bKvglYXanZxsjoBAti34JbTXL)
+
+Fourth step demo: 
+
+[![asciicast](https://asciinema.org/a/B1m9t8y9cS4mvOKqpRzDXEP20.svg)](https://asciinema.org/a/B1m9t8y9cS4mvOKqpRzDXEP20)
