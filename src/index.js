@@ -90,7 +90,7 @@ const loader = async (url, directory) => {
     try {
       fs.mkdir(directory);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -106,14 +106,14 @@ const loader = async (url, directory) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
   try {
     fs.writeFile(filePath, processedData);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return filePath;
