@@ -3,7 +3,6 @@ import path from 'path';
 import cheerio from 'cheerio';
 import axios from 'axios';
 import debug from 'debug';
-import 'axios-debug-log';
 
 import {
   formatUrl, get, makeFileDirectoryUrl, makeAssetUrl, hasAssets,

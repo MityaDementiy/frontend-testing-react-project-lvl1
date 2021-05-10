@@ -23,7 +23,7 @@ export const formatUrl = (url) => {
 export const get = (url) => axios.get(url)
   .then((response) => response.data)
   .then((data) => data)
-  .catch((err) => console.log(err.message));
+  .catch((debug, err) => debug('Error:', err.message));
 
 export const makeFileDirectoryUrl = (fileName) => {
   const splittedUrl = fileName.split('.');
