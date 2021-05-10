@@ -16,3 +16,7 @@ Third step demo:
 Fourth step demo: 
 
 [![asciicast](https://asciinema.org/a/B1m9t8y9cS4mvOKqpRzDXEP20.svg)](https://asciinema.org/a/B1m9t8y9cS4mvOKqpRzDXEP20)
+
+Fifth step demo: 
+
+[![asciicast](https://asciinema.org/a/p6HhUfEZ0FX60t9o1pys20xm5.svg)](https://asciinema.org/a/p6HhUfEZ0FX60t9o1pys20xm5)
