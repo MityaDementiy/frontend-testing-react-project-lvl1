@@ -2,6 +2,10 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 import { promises as fs } from 'fs';
 import path from 'path';
+import debug from 'debug';
+import 'axios-debug-log';
+
+const log = debug('page-loader');
 
 export const formatUrl = (url) => {
   const urlObj = new URL(url);
@@ -11,6 +15,7 @@ export const formatUrl = (url) => {
   const splitted = stringifyedUrl.split(separators);
   const joined = splitted.join('-');
   const formatted = `${joined}.html`;
+  log('Formatted url:', formatted);
 
   return formatted;
 };
@@ -41,6 +46,8 @@ export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
     const fileExt = splitted.pop();
     const joined = splitted.join('-');
     const result = `${directoryPath}/${joined}.${fileExt}`;
+    log('Asset URL:', result);
+  
     return result;
   }
   const requestUrlObj = new URL(requestUrl);
@@ -54,6 +61,8 @@ export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
   const fileExt = splitted.pop();
   const joined = splitted.join('-');
   const result = `${directoryPath}/${joined}.${fileExt}`;
+  log('Asset URL:', result);
+
   return result;
 };
 

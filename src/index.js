@@ -2,10 +2,14 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import cheerio from 'cheerio';
 import axios from 'axios';
+import debug from 'debug';
+import 'axios-debug-log';
 
 import {
   formatUrl, get, makeFileDirectoryUrl, makeAssetUrl, hasAssets,
 } from './utils';
+
+const log = debug('page-loader');
 
 const loader = async (url, directory) => {
   const cwd = process.cwd();
@@ -14,6 +18,7 @@ const loader = async (url, directory) => {
   const fileDirectoryUrl = makeFileDirectoryUrl(filePath);
   const urlObj = new URL(url);
   const { hostname, origin } = urlObj;
+  log('file path, file directory url:', filePath, fileDirectoryUrl);
 
   const pageData = await get(url);
   const $ = cheerio.load(pageData, { decodeEntities: false });
@@ -31,7 +36,6 @@ const loader = async (url, directory) => {
         imagesLinks.push(src);
         const newSrc = makeAssetUrl(src, fileDirectoryUrl, url);
         element.attribs.src = newSrc;
-        console.log(imagesLinks)
       }
     }
     if (!src.startsWith('http') && src.startsWith('/')) {
@@ -60,6 +64,8 @@ const loader = async (url, directory) => {
       element.attribs.href = newHref;
     }
   });
+
+  log('images urls:', imagesLinks);
 
   $('script').toArray().forEach((element) => {
     const { src } = element.attribs;
