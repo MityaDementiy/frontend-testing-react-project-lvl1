@@ -17,7 +17,6 @@ const loader = async (url, directory) => {
   const fileDirectoryUrl = makeFileDirectoryUrl(filePath);
   const urlObj = new URL(url);
   const { hostname, origin } = urlObj;
-  log('file path, file directory url:', filePath, fileDirectoryUrl);
 
   const pageData = await get(url);
   const $ = cheerio.load(pageData, { decodeEntities: false });
