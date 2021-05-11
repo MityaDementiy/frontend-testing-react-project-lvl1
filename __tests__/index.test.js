@@ -14,7 +14,7 @@ afterAll(() => {
   nock.enableNetConnect();
 });
 
-let tempDir;
+let tempDir = '';
 
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
