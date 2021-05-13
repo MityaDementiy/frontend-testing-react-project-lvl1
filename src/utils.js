@@ -52,7 +52,7 @@ export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
   }
   const requestUrlObj = new URL(requestUrl);
   const { origin } = requestUrlObj;
-  const absoluteImageUrl = path.join(origin, assetUrl);
+  const absoluteImageUrl = `${origin}/${assetUrl}`;
   const urlObj = new URL(absoluteImageUrl);
   const { hostname, pathname } = urlObj;
   const stringifyedUrl = `${hostname}${pathname}`;

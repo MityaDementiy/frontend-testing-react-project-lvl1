@@ -36,10 +36,10 @@ const loader = async (url, directory) => {
         element.attribs.src = newSrc;
       }
     }
-    if (!src.startsWith('http') && src.startsWith('/')) {
+    if (!src.startsWith('http')) {
       const newSrc = makeAssetUrl(src, fileDirectoryUrl, url);
       element.attribs.src = newSrc;
-      const absolutePath = path.join(origin, src);
+      const absolutePath = `${origin}/${src}`;
       imagesLinks.push(absolutePath);
     }
   });
