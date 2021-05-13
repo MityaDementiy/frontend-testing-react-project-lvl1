@@ -39,7 +39,12 @@ const loader = async (url, directory) => {
     if (!src.startsWith('http')) {
       const newSrc = makeAssetUrl(src, fileDirectoryUrl, url);
       element.attribs.src = newSrc;
-      const absolutePath = `${origin}/${src}`;
+      let absolutePath;
+      if (!src.startsWith('/')) {
+        absolutePath = `${origin}/${src}`;
+      } else {
+        absolutePath = `${origin}${src}`;
+      }
       imagesLinks.push(absolutePath);
     }
   });
