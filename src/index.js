@@ -91,7 +91,7 @@ const loader = async (url, directory) => {
 
   const processedData = $.html();
 
-  if (directory !== cwd && !await fs.readdir(directory)) {
+  if (directory !== cwd) {
     try {
       await fs.mkdir(directory);
     } catch (error) {
