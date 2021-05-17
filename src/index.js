@@ -95,7 +95,7 @@ const loader = async (url, directory) => {
     try {
       await fs.mkdir(directory);
     } catch (error) {
-      throw new Error(error);
+      console.error(error);
     }
   }
 
