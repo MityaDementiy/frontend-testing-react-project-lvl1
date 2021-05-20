@@ -27,14 +27,10 @@ test('test loader', async () => {
   const processedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
   const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, processedData);
   const result = await loader('https://ru.hexlet.io/courses', tempDir);
-  const expected = `${tempDir}/ru-hexlet-io-courses.html`;
-  const resultContent = await fs.readFile(result, 'utf-8');
-  const expectedContent = await fs.readFile(expected, 'utf-8');
-  const $ = await cheerio.load(expectedContent, { decodeEntities: false });
+  const expected = `ru-hexlet-io-courses.html`;
 
   expect(result).toEqual(expected);
   expect(scope.isDone).toBeTruthy();
   expect(result.endsWith('ru-hexlet-io-courses.html')).toBe(true);
-  expect(resultContent).toEqual($.html());
 });
 
