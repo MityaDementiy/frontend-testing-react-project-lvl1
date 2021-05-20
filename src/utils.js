@@ -45,7 +45,7 @@ export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
     const splitted = stringifyedUrl.split(separators);
     const fileExt = splitted.pop();
     const joined = splitted.join('-');
-    const result = `${directoryPath}/${joined}.${fileExt}`;
+    const result = `/${joined}.${fileExt}`;
     log('Asset URL:', result);
   
     return result;
@@ -60,7 +60,7 @@ export const makeAssetUrl = (assetUrl, directoryPath, requestUrl) => {
   const splitted = stringifyedUrl.split(separators);
   const fileExt = splitted.pop();
   const joined = splitted.join('-');
-  const result = `${directoryPath}/${joined}.${fileExt}`;
+  const result = `/${joined}.${fileExt}`;
   log('Asset URL:', result);
 
   return result;
