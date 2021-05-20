@@ -11,6 +11,7 @@ import {
 const log = debug('page-loader');
 
 const loader = async (url, directory) => {
+console.log("🚀 ~ file: index.js ~ line 14 ~ loader ~ directory", directory)
   const cwd = process.cwd();
   const fileName = formatUrl(url);
   const filePath = path.join(fileName);
@@ -109,7 +110,7 @@ const loader = async (url, directory) => {
   }
 
   if (hasAssets(imagesLinks)) {
-    fs.mkdir(fileDirectoryUrl);
+    await fs.mkdir(path.join(directory, fileDirectoryUrl));
     const requestImages = imagesLinks.map((url) => axios.get(url, { responseType: 'arraybuffer' }).then(({ data }) => data));
     const processedImagesUrls = imagesLinks.map((link) => makeAssetUrl(link, fileDirectoryUrl, url));
 
@@ -125,7 +126,7 @@ const loader = async (url, directory) => {
   }
 
   try {
-    await fs.writeFile(filePath, processedData);
+    await fs.writeFile(path.join(directory, filePath), processedData);
   } catch (error) {
     console.error(error);
   }
