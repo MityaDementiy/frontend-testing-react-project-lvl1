@@ -33,7 +33,6 @@ const loader = async (url, directory) => {
       if (srcHostName === hostname) {
         imagesLinks.push(src);
         const newSrc = makeAssetUrl(src, fileDirectoryUrl, url);
-        console.log("🚀 ~ file: index.js ~ line 36 ~ $ ~ newSrc", newSrc)
         element.attribs.src = newSrc;
       }
     }
