@@ -15,7 +15,6 @@ const loader = async (url, directory) => {
   const fileName = formatUrl(url);
   const filePath = path.join(fileName);
   const fileDirectoryUrl = makeFileDirectoryUrl(filePath);
-  console.log("🚀 ~ file: index.js ~ line 18 ~ loader ~ fileDirectoryUrl", fileDirectoryUrl)
   const urlObj = new URL(url);
   const { hostname, origin } = urlObj;
 
