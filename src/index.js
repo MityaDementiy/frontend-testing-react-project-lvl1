@@ -13,8 +13,9 @@ const log = debug('page-loader');
 const loader = async (url, directory) => {
   const cwd = process.cwd();
   const fileName = formatUrl(url);
-  const filePath = path.join(directory, fileName);
+  const filePath = path.join(fileName);
   const fileDirectoryUrl = makeFileDirectoryUrl(filePath);
+  console.log("🚀 ~ file: index.js ~ line 18 ~ loader ~ fileDirectoryUrl", fileDirectoryUrl)
   const urlObj = new URL(url);
   const { hostname, origin } = urlObj;
 
@@ -33,6 +34,7 @@ const loader = async (url, directory) => {
       if (srcHostName === hostname) {
         imagesLinks.push(src);
         const newSrc = makeAssetUrl(src, fileDirectoryUrl, url);
+        console.log("🚀 ~ file: index.js ~ line 36 ~ $ ~ newSrc", newSrc)
         element.attribs.src = newSrc;
       }
     }
