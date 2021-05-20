@@ -91,7 +91,16 @@ const loader = async (url, directory) => {
 
   const processedData = $.html();
 
-  if (directory !== cwd) {
+  let access;
+
+  try {
+    await fs.access(directory);
+    access = true;
+  } catch {
+    access = false;
+  }
+
+  if (!access && directory !== cwd) {
     try {
       await fs.mkdir(directory);
     } catch (error) {
@@ -116,7 +125,7 @@ const loader = async (url, directory) => {
   }
 
   try {
-    fs.writeFile(filePath, processedData);
+    await fs.writeFile(filePath, processedData);
   } catch (error) {
     console.error(error);
   }
