@@ -1,6 +1,20 @@
-import axios from 'axios';
-import cheerio from 'cheerio';
-import { promises as fs } from 'fs';
 import path from 'path';
-import debug from 'debug';
-import 'axios-debug-log';
+
+const processName = (name, replacer = '-') => name.match(/\w*/gi)
+  .filter((x) => x)
+  .join(replacer);
+
+export const urlToFilename = (link, defaultFormat = '.html') => {
+  const { dir, name, ext } = path.parse(link);
+  const slug = processName(path.join(dir, name));
+  const format = ext || defaultFormat;
+
+  return `${slug}${format}`;
+};
+
+export const urlToDirname = (link, postfix = '_files') => {
+  const { dir, name, ext } = path.parse(link);
+  const slug = processName(path.join(dir, name, ext));
+
+  return `${slug}${postfix}`;
+};
