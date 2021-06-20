@@ -57,16 +57,16 @@ describe('test utils', () => {
 describe('test pageloader', () => {
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
+    const formattedExpecteData = cheerio.load(expectedData, { decodeEntities: false });
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
-    const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, expectedData);
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
     const result = await loader('https://ru.hexlet.io/courses', tempDir);
     const { filepath: processedFilepath } = result;
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
-    console.log("🚀 ~ file: index.test.js ~ line 66 ~ it ~ processedData", processedData)
 
     expect(rawData).not.toEqual(processedData);
-    expect(processedData).toEqual(expectedData);
+    expect(processedData).toEqual(formattedExpecteData.html());
   })
 });
 
