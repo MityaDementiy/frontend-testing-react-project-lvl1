@@ -7,6 +7,23 @@ import cheerio from 'cheerio';
 import loader from '../src/index';
 import { urlToFilename, urlToDirname } from '../src/utils';
 
+beforeAll(() => {
+  nock.disableNetConnect();
+});
+
+afterAll(() => {
+  nock.cleanAll();
+  nock.enableNetConnect();
+});
+
+let tempDir = '';
+
+beforeEach(async () => {
+  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+});
+
+const getFixturePath = (name) => path.join('__fixtures__', name);
+
 describe('test utils', () => {
   test('urlToFilename should process urls', () => {
     const firstUrl = 'https://ru.hexlet.io/programs/frontend-testing-react';
@@ -35,5 +52,21 @@ describe('test utils', () => {
     expect(firstProcessedUrl).toEqual(firstExpectedUrl);
     expect(secondProcessedUrl).toEqual(secondExpectedUrl);
   });
+});
+
+describe('test pageloader', () => {
+  it('should write file correctly', async () => {
+    const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+
+    const scope = nock('https://ru.hexlet.io').get('/courses').reply(200, expectedData);
+    const result = await loader('https://ru.hexlet.io/courses', tempDir);
+    const { filepath: processedFilepath } = result;
+    const processedData = await fs.readFile(processedFilepath, 'utf-8');
+    console.log("🚀 ~ file: index.test.js ~ line 66 ~ it ~ processedData", processedData)
+
+    expect(rawData).not.toEqual(processedData);
+    expect(processedData).toEqual(expectedData);
+  })
 });
 
