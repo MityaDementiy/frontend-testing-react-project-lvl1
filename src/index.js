@@ -6,7 +6,7 @@ import path from 'path';
 import cheerio from 'cheerio';
 import debug from 'debug';
 
-import { urlToDirname, urlToFilename } from './utils.js';
+import { urlToDirname, urlToFilename } from './utils';
 
 // В логировании главное - данные, которые помогают отлаживать
 const log = debug('page-loader');

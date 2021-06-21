@@ -67,6 +67,27 @@ describe('test pageloader', () => {
 
     expect(rawData).not.toEqual(processedData);
     expect(processedData).toEqual(formattedExpecteData.html());
-  })
-});
+  });
 
+  it('should download images', async () => {
+    const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const image = 'ru-hexlet-io-assets-professions-nodejs.png';
+
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+    const result = await loader('https://ru.hexlet.io/courses', tempDir);
+    const { filepath: processedFilepath } = result;
+    console.log("🚀 ~ file: index.test.js ~ line 80 ~ it ~ processedFilepath", processedFilepath)
+
+    const directoryPath = path.dirname(processedFilepath);
+    const dir = await fs.readdir(`${directoryPath}/ru-hexlet-io-courses_files`); // эта директория пустая
+    console.log("🚀 ~ file: index.test.js ~ line 84 ~ it ~ dir", dir)
+    const fileName = path.basename(processedFilepath, '.html');
+    const assetsDirectory = `${fileName}_files`;
+    const imagePath = path.join(directoryPath, assetsDirectory, image);
+    console.log("🚀 ~ file: index.test.js ~ line 86 ~ it ~ imagePath", imagePath)
+    const expectedImageData = await fs.readFile(getFixturePath('nodejs.png'));
+    const imageData = await fs.readFile(imagePath);
+    console.log("🚀 ~ file: index.test.js ~ line 87 ~ it ~ imageData", imageData);
+  });
+});
