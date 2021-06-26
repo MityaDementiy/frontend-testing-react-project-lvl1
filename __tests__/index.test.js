@@ -82,10 +82,10 @@ describe('test pageloader', () => {
 
     await loader('https://ru.hexlet.io/courses', tempDir);
 
-    const dirContent = await fs.readdir(assetsDir);
+    const assetsDirContent = await fs.readdir(assetsDir);
     const downloadedImage = await fs.readFile(path.join(assetsDir, expectedImage), 'utf-8');
 
-    expect(dirContent.length).not.toBe(0);
+    expect(assetsDirContent.length).not.toBe(0);
     expect(downloadedImage).toBe(imageData);
   });
 });
