@@ -70,24 +70,22 @@ describe('test pageloader', () => {
   });
 
   it('should download images', async () => {
-    const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
-    const image = 'ru-hexlet-io-assets-professions-nodejs.png';
+    const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
+    const imagePath = getFixturePath(expectedImage);
+    const imageData = await fs.readFile(imagePath, 'utf-8');
 
+    const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
-    const result = await loader('https://ru.hexlet.io/courses', tempDir);
-    const { filepath: processedFilepath } = result;
-    console.log("🚀 ~ file: index.test.js ~ line 80 ~ it ~ processedFilepath", processedFilepath)
+    nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
+      .reply(200, imageData);
 
-    const directoryPath = path.dirname(processedFilepath);
-    const dir = await fs.readdir(`${directoryPath}/ru-hexlet-io-courses_files`); // эта директория пустая
-    console.log("🚀 ~ file: index.test.js ~ line 84 ~ it ~ dir", dir)
-    const fileName = path.basename(processedFilepath, '.html');
-    const assetsDirectory = `${fileName}_files`;
-    const imagePath = path.join(directoryPath, assetsDirectory, image);
-    console.log("🚀 ~ file: index.test.js ~ line 86 ~ it ~ imagePath", imagePath)
-    const expectedImageData = await fs.readFile(getFixturePath('nodejs.png'));
-    const imageData = await fs.readFile(imagePath);
-    console.log("🚀 ~ file: index.test.js ~ line 87 ~ it ~ imageData", imageData);
+    await loader('https://ru.hexlet.io/courses', tempDir);
+
+    const dirContent = await fs.readdir(assetsDir);
+    const downloadedImage = await fs.readFile(path.join(assetsDir, expectedImage), 'utf-8');
+
+    expect(dirContent.length).not.toBe(0);
+    expect(downloadedImage).toBe(imageData);
   });
 });

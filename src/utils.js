@@ -8,13 +8,11 @@ export const urlToFilename = (link, defaultFormat = '.html') => {
   const { dir, name, ext } = path.parse(link);
   const slug = processName(path.join(dir, name));
   const format = ext || defaultFormat;
-
   return `${slug}${format}`;
 };
 
 export const urlToDirname = (link, postfix = '_files') => {
   const { dir, name, ext } = path.parse(link);
   const slug = processName(path.join(dir, name, ext));
-
   return `${slug}${postfix}`;
 };
