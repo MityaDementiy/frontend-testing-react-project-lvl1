@@ -69,23 +69,35 @@ describe('test pageloader', () => {
     expect(processedData).toEqual(formattedExpecteData.html());
   });
 
-  it('should download images', async () => {
+  it('should download assets', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
     const imagePath = getFixturePath(expectedImage);
     const imageData = await fs.readFile(imagePath, 'utf-8');
-
+    const expectedCss = 'ru-hexlet-io-assets-application.css';
+    const expectedCssPath = getFixturePath(expectedCss);
+    const cssData = await fs.readFile(expectedCssPath, 'utf-8');
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
+    const expectedScript = 'ru-hexlet-io-packs-js-runtime.js';
+    const expectedScriptPath = getFixturePath(expectedScript);
+    const scriptData = await fs.readFile(expectedScriptPath, 'utf-8');
+
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
     nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
       .reply(200, imageData);
+    nock('https://ru.hexlet.io').get('/assets/application.css').reply(200, cssData);
+    nock('https://ru.hexlet.io').get('/packs/js/runtime.js').reply(200, scriptData);
 
     await loader('https://ru.hexlet.io/courses', tempDir);
 
     const assetsDirContent = await fs.readdir(assetsDir);
     const downloadedImage = await fs.readFile(path.join(assetsDir, expectedImage), 'utf-8');
+    const downloadedCss = await fs.readFile(path.join(assetsDir, expectedCss), 'utf-8');
+    const downloadedScript = await fs.readFile(path.join(assetsDir, expectedScript), 'utf-8');
 
     expect(assetsDirContent.length).not.toBe(0);
     expect(downloadedImage).toBe(imageData);
+    expect(downloadedCss).toBe(cssData);
+    expect(downloadedScript).toBe(scriptData);
   });
 });
