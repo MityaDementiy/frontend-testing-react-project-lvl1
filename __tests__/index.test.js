@@ -100,4 +100,9 @@ describe('test pageloader', () => {
     expect(downloadedCss).toBe(cssData);
     expect(downloadedScript).toBe(scriptData);
   });
+
+  it('should throw when reply is not 200', async () => {
+    nock('https://ru.hexlet.io').get('/courses').reply(404);
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow('Request failed with status code 404');
+  });
 });
