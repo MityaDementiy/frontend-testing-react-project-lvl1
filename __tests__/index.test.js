@@ -105,4 +105,20 @@ describe('test pageloader', () => {
     nock('https://ru.hexlet.io').get('/courses').reply(404);
     expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow('Request failed with status code 404');
   });
+
+  it('should throw when can not download resource', async () => {
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
+    const errorMessage = new RegExp('ENOENT: no such file or directory');
+
+    const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
+
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+    nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
+      .reply(500);
+
+    await loader('https://ru.hexlet.io/courses', tempDir);
+
+    await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow(errorMessage);
+  });
 });
