@@ -22,7 +22,7 @@ beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
 });
 
-const getFixturePath = (name) => path.join('__fixtures__', name);
+const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 
 describe('test utils', () => {
   test('urlToFilename should process urls', () => {
