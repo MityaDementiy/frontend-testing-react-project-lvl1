@@ -121,4 +121,13 @@ describe('test pageloader', () => {
 
     await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow(errorMessage);
   });
+
+  it('should throw when incorrect directory path', async () => {
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const incorrectDirPath = 'asdf';
+
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+
+    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
+  });
 });
