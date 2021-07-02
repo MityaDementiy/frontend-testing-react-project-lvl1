@@ -103,7 +103,7 @@ describe('test pageloader', () => {
 
   it('should throw when reply is not 200', async () => {
     nock('https://ru.hexlet.io').get('/courses').reply(404);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow('Request failed with status code 404');
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
   });
 
   it('should throw when can not download resource', async () => {
