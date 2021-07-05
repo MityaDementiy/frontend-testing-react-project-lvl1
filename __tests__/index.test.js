@@ -131,4 +131,19 @@ describe('test pageloader', () => {
 
     await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow(errorMessage);
   });
+
+  it('should throw if permisson denied', async () => {
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
+    const imagePath = getFixturePath(expectedImage);
+    const imageData = await fs.readFile(imagePath, 'utf-8');
+    const errorMessage = new RegExp('EACCES: permission denied');
+    const sysDirPath = '/sys';
+
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+    nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
+      .reply(200, imageData);
+
+    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(errorMessage);
+  });
 });
