@@ -24,36 +24,6 @@ beforeEach(async () => {
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 
-describe('test utils', () => {
-  test('urlToFilename should process urls', () => {
-    const firstUrl = 'https://ru.hexlet.io/programs/frontend-testing-react';
-    const firstExpectedUrl = 'https-ru-hexlet-io-programs-frontend-testing-react.html';
-    const secondUrl = 'http://www.ru.hexlet.io/programs/frontend-testing-react';
-    const secondExpectedUrl = 'http-www-ru-hexlet-io-programs-frontend-testing-react.html';
-
-    const firstProcessedUrl = urlToFilename(firstUrl);
-    const secondProcessedUrl = urlToFilename(secondUrl);
-
-    expect(firstUrl).not.toEqual(firstProcessedUrl);
-    expect(firstProcessedUrl).toEqual(firstExpectedUrl);
-    expect(secondProcessedUrl).toEqual(secondExpectedUrl);
-  });
-
-  test('urlToDirname should process urls', () => {
-    const firstUrl = 'https://ru.hexlet.io/programs/frontend-testing-react';
-    const firstExpectedUrl = 'https-ru-hexlet-io-programs-frontend-testing-react_files';
-    const secondUrl = 'http://www.ru.hexlet.io/programs/frontend-testing-react';
-    const secondExpectedUrl = 'http-www-ru-hexlet-io-programs-frontend-testing-react_files';
-
-    const firstProcessedUrl = urlToDirname(firstUrl);
-    const secondProcessedUrl = urlToDirname(secondUrl);
-
-    expect(firstUrl).not.toEqual(firstProcessedUrl);
-    expect(firstProcessedUrl).toEqual(firstExpectedUrl);
-    expect(secondProcessedUrl).toEqual(secondExpectedUrl);
-  });
-});
-
 describe('test pageloader', () => {
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
