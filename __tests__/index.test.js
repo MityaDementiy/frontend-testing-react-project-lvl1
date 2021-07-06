@@ -115,7 +115,7 @@ describe('test pageloader', () => {
     const imagePath = getFixturePath(expectedImage);
     const imageData = await fs.readFile(imagePath, 'utf-8');
     const sysDirPath = '/sys';
-    const errorMessage = /EROFS: read-only file system|EACCES: permission denied/i;
+    const errorMessage = /EACCES: permission denied/i;
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
     nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
