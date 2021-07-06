@@ -120,6 +120,7 @@ describe('test pageloader', () => {
     nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
       .reply(200, imageData);
 
+    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EACCES: permission denied/i);
     await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow();
   });
 });
