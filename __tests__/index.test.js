@@ -115,12 +115,11 @@ describe('test pageloader', () => {
     const imagePath = getFixturePath(expectedImage);
     const imageData = await fs.readFile(imagePath, 'utf-8');
     const sysDirPath = '/sys';
-    const errorMessage = /EACCES: permission denied/i;
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
     nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
       .reply(200, imageData);
 
-    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(errorMessage);
+    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow();
   });
 });
