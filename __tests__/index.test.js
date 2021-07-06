@@ -101,9 +101,16 @@ describe('test pageloader', () => {
     expect(downloadedScript).toBe(scriptData);
   });
 
-  it('should throw when reply is not 200', async () => {
+  it('should throw when reply is 404', async () => {
+    const errorMessage = new RegExp('Request failed with status code 404');
     nock('https://ru.hexlet.io').get('/courses').reply(404);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow(errorMessage);
+  });
+
+  it('should throw when reply is 503', async () => {
+    const errorMessage = new RegExp('Request failed with status code 503');
+    nock('https://ru.hexlet.io').get('/courses').reply(503);
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow(errorMessage);
   });
 
   it('should throw when can not download resource', async () => {
