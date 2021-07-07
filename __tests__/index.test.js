@@ -72,21 +72,18 @@ describe('test pageloader', () => {
   });
 
   it('should throw when reply is 404', async () => {
-    const errorMessage = new RegExp('Request failed with status code 404');
     nock('https://ru.hexlet.io').get('/courses').reply(404);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow(errorMessage);
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
   });
 
   it('should throw when reply is 503', async () => {
-    const errorMessage = new RegExp('Request failed with status code 503');
     nock('https://ru.hexlet.io').get('/courses').reply(503);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow(errorMessage);
+    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
   });
 
   it('should throw when can not download resource', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
-    const errorMessage = new RegExp('ENOENT: no such file or directory');
 
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
@@ -96,17 +93,16 @@ describe('test pageloader', () => {
 
     await loader('https://ru.hexlet.io/courses', tempDir);
 
-    await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow(errorMessage);
+    await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow();
   });
 
   it('should throw when incorrect directory path', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const incorrectDirPath = 'asdf';
-    const errorMessage = new RegExp('ENOENT: no such file or directory');
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow(errorMessage);
+    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
   });
 
   it('should throw if permisson denied', async () => {
