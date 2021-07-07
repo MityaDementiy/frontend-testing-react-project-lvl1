@@ -99,20 +99,18 @@ describe('test pageloader', () => {
   it('should throw if permisson denied or incorrect path', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const sysDirPath = '/sys';
-    const errorMessage = new RegExp('[A-Za-z]');
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(errorMessage);
+    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EACCES/);
   });
 
   it('should throw if invalid path', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const incorrectDirPath = 'asdf';
-    const errorMessage = new RegExp('[A-Za-z]');
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow(errorMessage);
+    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow(/ENOENT/);
   });
 });
