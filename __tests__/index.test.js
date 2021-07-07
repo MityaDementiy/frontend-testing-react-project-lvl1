@@ -105,5 +105,15 @@ describe('test pageloader', () => {
 
     await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow();
     await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
+    await expect(loader('https://ru.hexlet.io/courses', getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow();
+  });
+
+  it('should throw if invalid path', async () => {
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const incorrectDirPath = 'asdf';
+
+    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+
+    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
   });
 });
