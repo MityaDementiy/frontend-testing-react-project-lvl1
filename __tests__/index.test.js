@@ -102,7 +102,7 @@ describe('test pageloader', () => {
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EACCES/);
+    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EROFS || EACCESS/);
   });
 
   it('should throw if invalid path', async () => {
