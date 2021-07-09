@@ -110,10 +110,9 @@ describe('test pageloader', () => {
   it('should throw when incorrect directory path', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const incorrectDirPath = 'asdf';
-    const errorMessage = new RegExp('ENOENT: no such file or directory');
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow(errorMessage);
+    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
   });
 });
