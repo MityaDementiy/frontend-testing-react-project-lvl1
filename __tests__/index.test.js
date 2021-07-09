@@ -99,9 +99,11 @@ describe('test pageloader', () => {
   it('should throw if permisson denied or incorrect path', async () => {
     const sysDirPath = '/sys';
     const incorrectDirPath = 'asdf';
+    const scope = nock('https://ru.hexlet.io').get('/courses').reply(200);
 
     await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
     await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow();
     await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
+    scope.isDone();
   });
 });
