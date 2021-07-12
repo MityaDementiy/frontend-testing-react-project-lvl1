@@ -5,7 +5,6 @@ import path from 'path';
 import cheerio from 'cheerio';
 
 import loader from '../src/index';
-import { urlToFilename, urlToDirname } from '../src/utils';
 
 beforeAll(() => {
   nock.disableNetConnect();
@@ -26,7 +25,7 @@ const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name
 
 describe('test pageloader', () => {
   it('should write file correctly', async () => {
-    const expectedData = await fs.readFile(getFixturePath('ru-hexlet-io-courses-expected.html'), 'utf-8');
+    const expectedData = await fs.readFile(getFixturePath('expected/ru-hexlet-io-courses-expected.html'), 'utf-8');
     const formattedExpecteData = cheerio.load(expectedData, { decodeEntities: false });
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
