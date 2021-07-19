@@ -25,12 +25,15 @@ const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name
 const assets = [{
   requestUrl: '/assets/professions/nodejs.png',
   path: 'ru-hexlet-io-assets-professions-nodejs.png',
+  expected: '/expected/nodejs.png',
 }, {
   requestUrl: '/assets/application.css',
   path: 'ru-hexlet-io-assets-application.css',
+  expected: '/expected/style.css',
 }, {
   requestUrl: '/packs/js/runtime.js',
   path: 'ru-hexlet-io-packs-js-runtime.js',
+  expected: '/expected/main.js',
 }];
 
 describe('test pageloader', () => {
@@ -43,14 +46,14 @@ describe('test pageloader', () => {
 
     await loader('https://ru.hexlet.io/courses', tempDir);
     assets.forEach(async (asset) => {
-      const expectedData = await fs.readFile(getFixturePath(asset.path), 'utf-8');
+      const expectedData = await fs.readFile(getFixturePath(asset.expected), 'utf-8');
       const downloadedData = await fs.readFile(path.join(assetsDir, asset.path), 'utf-8');
       expect(expectedData).toEqual(downloadedData);
     });
   });
 
   it('should write file correctly', async () => {
-    const expectedData = await fs.readFile(getFixturePath('expected/ru-hexlet-io-courses-expected.html'), 'utf-8');
+    const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
     const formattedExpecteData = cheerio.load(expectedData, { decodeEntities: false });
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
