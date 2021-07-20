@@ -2,7 +2,6 @@ import nock from 'nock';
 import os from 'os';
 import { promises as fs } from 'fs';
 import path from 'path';
-import cheerio from 'cheerio';
 
 import loader from '../src/index';
 
@@ -54,7 +53,6 @@ describe('test pageloader', () => {
 
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
-    const formattedExpecteData = cheerio.load(expectedData, { decodeEntities: false });
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
     nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
@@ -63,7 +61,7 @@ describe('test pageloader', () => {
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
 
     expect(rawData).not.toEqual(processedData);
-    expect(processedData).toEqual(formattedExpecteData.html());
+    expect(processedData).toEqual(expectedData);
   });
 
   it('should throw when reply is 404', async () => {
