@@ -10,7 +10,6 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  nock.cleanAll();
   nock.enableNetConnect();
 });
 
@@ -18,6 +17,10 @@ let tempDir = '';
 
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+});
+
+afterEach(() => {
+  nock.cleanAll();
 });
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
@@ -46,6 +49,7 @@ describe('test pageloader', () => {
 
     nock(siteUrl).get(pagePath).reply(200, rawData);
     assets.forEach(async (asset) => nock(siteUrl)
+      .persist()
       .get(asset.requestUrl)
       .reply(200, await fs.readFile(getFixturePath(asset.path))));
 
@@ -61,7 +65,7 @@ describe('test pageloader', () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
-    nock(siteUrl).get(pagePath).reply(200, rawData);
+    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
     const result = await loader(requestUrl, tempDir);
     const { filepath: processedFilepath } = result;
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
@@ -71,12 +75,12 @@ describe('test pageloader', () => {
   });
 
   it('should throw when reply is 404', async () => {
-    nock(siteUrl).get(pagePath).reply(404);
+    nock(siteUrl).persist().get(pagePath).reply(404);
     expect(loader(requestUrl, tempDir)).rejects.toThrow();
   });
 
   it('should throw when reply is 503', async () => {
-    nock(siteUrl).get(pagePath).reply(503);
+    nock(siteUrl).persist().get(pagePath).reply(503);
     expect(loader(requestUrl, tempDir)).rejects.toThrow();
   });
 
@@ -86,8 +90,8 @@ describe('test pageloader', () => {
 
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
-    nock(siteUrl).get(pagePath).reply(200, rawData);
-    nock(siteUrl).get('/assets/professions/nodejs.png')
+    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
+    nock(siteUrl).persist().get('/assets/professions/nodejs.png')
       .reply(500);
 
     await loader(requestUrl, tempDir);
@@ -98,7 +102,7 @@ describe('test pageloader', () => {
   it('should throw if permisson denied or incorrect path', async () => {
     const sysDirPath = '/sys';
     const incorrectDirPath = 'asdf';
-    nock(siteUrl).get(pagePath).reply(200);
+    nock(siteUrl).persist().get(pagePath).reply(200);
 
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow();
@@ -108,7 +112,7 @@ describe('test pageloader', () => {
   it('should throw when not directory', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
-    nock(siteUrl).get(pagePath).reply(200, rawData);
+    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
 
     await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
   });
