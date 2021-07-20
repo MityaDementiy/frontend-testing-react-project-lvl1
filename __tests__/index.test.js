@@ -35,15 +35,21 @@ const assets = [{
   expected: '/expected/main.js',
 }];
 
+const siteUrl = 'https://ru.hexlet.io';
+const pagePath = '/courses';
+const requestUrl = 'https://ru.hexlet.io/courses';
+
 describe('test pageloader', () => {
   it('should download assets', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
-    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
-    assets.forEach(async (asset) => nock('https://ru.hexlet.io').get(asset.requestUrl).reply(200, await fs.readFile(getFixturePath(asset.path))));
+    nock(siteUrl).get(pagePath).reply(200, rawData);
+    assets.forEach(async (asset) => nock(siteUrl)
+      .get(asset.requestUrl)
+      .reply(200, await fs.readFile(getFixturePath(asset.path))));
 
-    await loader('https://ru.hexlet.io/courses', tempDir);
+    await loader(requestUrl, tempDir);
     assets.forEach(async (asset) => {
       const expectedData = await fs.readFile(getFixturePath(asset.expected), 'utf-8');
       const downloadedData = await fs.readFile(path.join(assetsDir, asset.path), 'utf-8');
@@ -55,8 +61,8 @@ describe('test pageloader', () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
-    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
-    const result = await loader('https://ru.hexlet.io/courses', tempDir);
+    nock(siteUrl).get(pagePath).reply(200, rawData);
+    const result = await loader(requestUrl, tempDir);
     const { filepath: processedFilepath } = result;
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
 
@@ -65,13 +71,13 @@ describe('test pageloader', () => {
   });
 
   it('should throw when reply is 404', async () => {
-    nock('https://ru.hexlet.io').get('/courses').reply(404);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
+    nock(siteUrl).get(pagePath).reply(404);
+    expect(loader(requestUrl, tempDir)).rejects.toThrow();
   });
 
   it('should throw when reply is 503', async () => {
-    nock('https://ru.hexlet.io').get('/courses').reply(503);
-    expect(loader('https://ru.hexlet.io/courses', tempDir)).rejects.toThrow();
+    nock(siteUrl).get(pagePath).reply(503);
+    expect(loader(requestUrl, tempDir)).rejects.toThrow();
   });
 
   it('should throw when can not download resource', async () => {
@@ -80,11 +86,11 @@ describe('test pageloader', () => {
 
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
-    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
-    nock('https://ru.hexlet.io').get('/assets/professions/nodejs.png')
+    nock(siteUrl).get(pagePath).reply(200, rawData);
+    nock(siteUrl).get('/assets/professions/nodejs.png')
       .reply(500);
 
-    await loader('https://ru.hexlet.io/courses', tempDir);
+    await loader(requestUrl, tempDir);
 
     await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow();
   });
@@ -92,18 +98,18 @@ describe('test pageloader', () => {
   it('should throw if permisson denied or incorrect path', async () => {
     const sysDirPath = '/sys';
     const incorrectDirPath = 'asdf';
-    nock('https://ru.hexlet.io').get('/courses').reply(200);
+    nock(siteUrl).get(pagePath).reply(200);
 
-    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
-    await expect(loader('https://ru.hexlet.io/courses', sysDirPath)).rejects.toThrow();
-    await expect(loader('https://ru.hexlet.io/courses', incorrectDirPath)).rejects.toThrow();
+    await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
+    await expect(loader(requestUrl, sysDirPath)).rejects.toThrow();
+    await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow();
   });
 
   it('should throw when not directory', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
-    nock('https://ru.hexlet.io').get('/courses').reply(200, rawData);
+    nock(siteUrl).get(pagePath).reply(200, rawData);
 
-    await expect(loader('https://ru.hexlet.io/courses', getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
+    await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
   });
 });
