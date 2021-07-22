@@ -76,14 +76,9 @@ describe('test pageloader — positive cases', () => {
 });
 
 describe('test pageloader — negative cases', () => {
-  it('should throw when reply is 404', async () => {
-    nock(siteUrl).persist().get(pagePath).reply(404);
-    expect(loader(requestUrl, tempDir)).rejects.toThrow();
-  });
-
-  it('should throw when reply is 503', async () => {
-    nock(siteUrl).persist().get(pagePath).reply(503);
-    expect(loader(requestUrl, tempDir)).rejects.toThrow();
+  test.each([404, 503])('Error %p', async (status) => {
+    nock(siteUrl).persist().get(pagePath).reply(status);
+    await expect(loader(requestUrl, tempDir)).rejects.toThrow();
   });
 
   it('should throw when can not download resource', async () => {
