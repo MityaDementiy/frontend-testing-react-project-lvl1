@@ -78,7 +78,7 @@ describe('test pageloader — positive cases', () => {
 describe('test pageloader — negative cases', () => {
   test.each([404, 503])('Error %p', async (status) => {
     nock(siteUrl).persist().get(pagePath).reply(status);
-    await expect(loader(requestUrl, tempDir)).rejects.toThrow();
+    await expect(loader(requestUrl, tempDir)).rejects.toThrow(new RegExp(status));
   });
 
   it('should throw when can not download resource', async () => {
