@@ -42,7 +42,7 @@ const siteUrl = 'https://ru.hexlet.io';
 const pagePath = '/courses';
 const requestUrl = 'https://ru.hexlet.io/courses';
 
-describe('test pageloader', () => {
+describe('test pageloader — positive cases', () => {
   it('should download assets', async () => {
     const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
@@ -73,7 +73,9 @@ describe('test pageloader', () => {
     expect(rawData).not.toEqual(processedData);
     expect(processedData).toEqual(expectedData);
   });
+});
 
+describe('test pageloader — negative cases', () => {
   it('should throw when reply is 404', async () => {
     nock(siteUrl).persist().get(pagePath).reply(404);
     expect(loader(requestUrl, tempDir)).rejects.toThrow();
