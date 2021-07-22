@@ -113,4 +113,19 @@ describe('test pageloader — negative cases', () => {
 
     await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
   });
+
+  it('should throw when directory exists', async () => {
+    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+    const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
+
+    const assetsDir = tempDir;
+
+    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
+    nock(siteUrl).persist().get('/assets/professions/nodejs.png')
+      .reply(500);
+
+    await loader(requestUrl, tempDir);
+
+    await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).not.rejects.toThrow();
+  });
 });
