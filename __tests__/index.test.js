@@ -103,6 +103,7 @@ describe('test pageloader — negative cases', () => {
 
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
     await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
+    await expect(loader(requestUrl, '/')).rejects.toThrow(/EACCES/);
   });
 
   it('should throw when not directory', async () => {
@@ -111,13 +112,5 @@ describe('test pageloader — negative cases', () => {
     nock(siteUrl).persist().get(pagePath).reply(200, rawData);
 
     await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
-  });
-
-  it('should throw if errors with asset directory', async () => {
-    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
-
-    nock(siteUrl).get(pagePath).reply(200, rawData);
-
-    await expect(loader(requestUrl, '/')).rejects.toThrow(/EACCES/);
   });
 });
