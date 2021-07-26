@@ -118,6 +118,6 @@ describe('test pageloader — negative cases', () => {
 
     nock(siteUrl).get(pagePath).reply(200, rawData);
 
-    await expect(loader(requestUrl, 'problem-directory')).rejects.toThrow(/ENOENT/);
+    await expect(loader(requestUrl, '/')).rejects.toThrow(/EACCES/);
   });
 });
