@@ -102,8 +102,7 @@ describe('test pageloader — negative cases', () => {
     nock(siteUrl).persist().get(pagePath).reply(200);
 
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
-    await expect(loader(requestUrl, sysDirPath)).rejects.toThrow();
-    await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow();
+    await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
   });
 
   it('should throw when not directory', async () => {
