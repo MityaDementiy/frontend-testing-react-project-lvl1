@@ -5,6 +5,8 @@ import path from 'path';
 
 import loader from '../src/index';
 
+const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
+
 beforeAll(() => {
   nock.disableNetConnect();
 });
@@ -14,16 +16,17 @@ afterAll(() => {
 });
 
 let tempDir = '';
+let rawData;
 
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+  rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 });
 
 afterEach(() => {
   nock.cleanAll();
 });
 
-const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
 const assets = [{
   requestUrl: '/assets/professions/nodejs.png',
   path: 'ru-hexlet-io-assets-professions-nodejs.png',
@@ -44,7 +47,6 @@ const requestUrl = 'https://ru.hexlet.io/courses';
 
 describe('test pageloader — positive cases', () => {
   it('should download assets', async () => {
-    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
     nock(siteUrl).get(pagePath).reply(200, rawData);
@@ -63,7 +65,6 @@ describe('test pageloader — positive cases', () => {
 
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
-    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
 
     nock(siteUrl).persist().get(pagePath).reply(200, rawData);
     const result = await loader(requestUrl, tempDir);
@@ -82,7 +83,6 @@ describe('test pageloader — negative cases', () => {
   });
 
   it('should throw when can not download resource', async () => {
-    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
     const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
 
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
@@ -106,8 +106,6 @@ describe('test pageloader — negative cases', () => {
   });
 
   it('should throw when not directory', async () => {
-    const rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
-
     nock(siteUrl).persist().get(pagePath).reply(200, rawData);
 
     await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
