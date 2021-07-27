@@ -96,12 +96,17 @@ describe('test pageloader — negative cases', () => {
     await expect(fs.readFile(path.join(assetsDir, expectedImage), 'utf-8')).rejects.toThrow();
   });
 
-  it('should throw if permisson denied or incorrect path', async () => {
+  it('should throw if permisson denied', async () => {
     const sysDirPath = '/sys';
-    const incorrectDirPath = 'asdf';
     scope.get(pagePath).reply(200);
 
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
+  });
+
+  it('should throw if incorrect path', async () => {
+    const incorrectDirPath = 'asdf';
+    scope.get(pagePath).reply(200);
+
     await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
   });
 
