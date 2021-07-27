@@ -6,6 +6,10 @@ import path from 'path';
 import loader from '../src/index';
 
 const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
+const siteUrl = 'https://ru.hexlet.io';
+const pagePath = '/courses';
+const requestUrl = 'https://ru.hexlet.io/courses';
+const scope = nock(siteUrl).persist();
 
 beforeAll(() => {
   nock.disableNetConnect();
@@ -17,15 +21,6 @@ afterAll(() => {
 
 let tempDir = '';
 let rawData;
-
-beforeEach(async () => {
-  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
-  rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
-});
-
-afterEach(() => {
-  nock.cleanAll();
-});
 
 const assets = [{
   requestUrl: '/assets/professions/nodejs.png',
@@ -41,20 +36,24 @@ const assets = [{
   expected: '/expected/main.js',
 }];
 
-const siteUrl = 'https://ru.hexlet.io';
-const pagePath = '/courses';
-const requestUrl = 'https://ru.hexlet.io/courses';
-const scope = nock(siteUrl).persist();
+beforeEach(async () => {
+  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+  rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+  assets.forEach(async (asset) => nock(siteUrl)
+    .persist()
+    .get(asset.requestUrl)
+    .reply(200, await fs.readFile(getFixturePath(asset.path))));
+});
+
+afterEach(() => {
+  nock.cleanAll();
+});
 
 describe('test pageloader — positive cases', () => {
   it('should download assets', async () => {
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
     scope.get(pagePath).reply(200, rawData);
-    assets.forEach(async (asset) => nock(siteUrl)
-      .persist()
-      .get(asset.requestUrl)
-      .reply(200, await fs.readFile(getFixturePath(asset.path))));
 
     await loader(requestUrl, tempDir);
     assets.forEach(async (asset) => {
