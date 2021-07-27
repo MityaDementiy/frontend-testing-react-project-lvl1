@@ -44,12 +44,13 @@ const assets = [{
 const siteUrl = 'https://ru.hexlet.io';
 const pagePath = '/courses';
 const requestUrl = 'https://ru.hexlet.io/courses';
+const scope = nock(siteUrl).persist();
 
 describe('test pageloader — positive cases', () => {
   it('should download assets', async () => {
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
-    nock(siteUrl).get(pagePath).reply(200, rawData);
+    scope.get(pagePath).reply(200, rawData);
     assets.forEach(async (asset) => nock(siteUrl)
       .persist()
       .get(asset.requestUrl)
@@ -66,7 +67,7 @@ describe('test pageloader — positive cases', () => {
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
 
-    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
+    scope.get(pagePath).reply(200, rawData);
     const result = await loader(requestUrl, tempDir);
     const { filepath: processedFilepath } = result;
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
@@ -78,7 +79,7 @@ describe('test pageloader — positive cases', () => {
 
 describe('test pageloader — negative cases', () => {
   test.each([404, 503])('Error %p', async (status) => {
-    nock(siteUrl).persist().get(pagePath).reply(status);
+    scope.get(pagePath).reply(status);
     await expect(loader(requestUrl, tempDir)).rejects.toThrow(new RegExp(status));
   });
 
@@ -87,8 +88,8 @@ describe('test pageloader — negative cases', () => {
 
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
-    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
-    nock(siteUrl).persist().get('/assets/professions/nodejs.png')
+    scope.get(pagePath).reply(200, rawData);
+    scope.get('/assets/professions/nodejs.png')
       .reply(500);
 
     await loader(requestUrl, tempDir);
@@ -99,14 +100,14 @@ describe('test pageloader — negative cases', () => {
   it('should throw if permisson denied or incorrect path', async () => {
     const sysDirPath = '/sys';
     const incorrectDirPath = 'asdf';
-    nock(siteUrl).persist().get(pagePath).reply(200);
+    scope.get(pagePath).reply(200);
 
     await expect(loader(requestUrl, sysDirPath)).rejects.toThrow(/EACCES || EROFS/);
     await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
   });
 
   it('should throw when not directory', async () => {
-    nock(siteUrl).persist().get(pagePath).reply(200, rawData);
+    scope.get(pagePath).reply(200, rawData);
 
     await expect(loader(requestUrl, getFixturePath('ru-hexlet-io-courses.html'))).rejects.toThrow(/ENOTDIR/);
   });
