@@ -63,6 +63,21 @@ describe('test pageloader — positive cases', () => {
     });
   });
 
+  test.each(assets)('load %s asset', async (asset) => {
+    const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
+
+    scope
+      .get(pagePath)
+      .reply(200, rawData);
+
+    await loader(requestUrl, tempDir);
+
+    const expectedData = await fs.readFile(getFixturePath(asset.expected), 'utf-8');
+    const downloadedData = await fs.readFile(path.join(assetsDir, asset.path), 'utf-8');
+
+    expect(expectedData).toEqual(downloadedData);
+  });
+
   it('should write file correctly', async () => {
     const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
 
