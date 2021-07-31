@@ -106,12 +106,9 @@ describe('test pageloader — negative cases', () => {
 
   it('should throw if incorrect path', async () => {
     const incorrectDirPath = 'asdf';
-    const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
     scope.get(pagePath).reply(200, {});
 
     await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
-    await expect(loader(requestUrl, '/nope')).rejects.toThrow(/ENOENT/);
-    await expect(loader(requestUrl, assetsDir)).rejects.toThrow(/ENOENT/);
   });
 
   it('should throw when not directory', async () => {
