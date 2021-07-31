@@ -122,7 +122,7 @@ describe('test pageloader — negative cases', () => {
     scope.get(pagePath).reply(200);
 
     await expect(loader(requestUrl, incorrectDirPath)).rejects.toThrow(/ENOENT/);
-    await expect(loader(requestUrl, '///////////////////////////////////../../../')).rejects.toThrow(/EACCES || EROFS/);
+    await expect(loader(requestUrl, '12345///////////////////////////////////../../../')).rejects.toThrow(/EACCES || EROFS/);
   });
 
   it('should throw when not directory', async () => {
