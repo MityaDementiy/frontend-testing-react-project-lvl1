@@ -39,8 +39,7 @@ const assets = [{
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
   rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
-  assets.forEach(async (asset) => nock(siteUrl)
-    .persist()
+  assets.forEach(async (asset) => scope
     .get(asset.requestUrl)
     .reply(200, await fs.readFile(getFixturePath(asset.path))));
 });
