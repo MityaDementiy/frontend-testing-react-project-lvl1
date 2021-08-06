@@ -1,6 +1,8 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/actions)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/950aaa7613e815e6bac7/maintainability)](https://codeclimate.com/github/MityaDementiy/frontend-testing-react-project-lvl1/maintainability)
+
 First step demo:
 
 [![asciicast](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy.svg)](https://asciinema.org/a/hG0GPyHBK4wEwvEbQ7cybAtRy)
