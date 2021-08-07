@@ -1,5 +1,7 @@
-### Hexlet tests and linter status:
+### Project checks status badges:
 [![Actions Status](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/actions)
+
+[![Node.js CI](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/actions/workflows/node.js.yml/badge.svg)](https://github.com/MityaDementiy/frontend-testing-react-project-lvl1/actions/workflows/node.js.yml)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/950aaa7613e815e6bac7/maintainability)](https://codeclimate.com/github/MityaDementiy/frontend-testing-react-project-lvl1/maintainability)
 
