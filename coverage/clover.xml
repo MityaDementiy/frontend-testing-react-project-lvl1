@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1628414023264" clover="3.2.0">
-  <project timestamp="1628414023265" name="All files">
+<coverage generated="1628414750814" clover="3.2.0">
+  <project timestamp="1628414750814" name="All files">
     <metrics statements="54" coveredstatements="54" conditionals="6" coveredconditionals="5" methods="20" coveredmethods="20" elements="80" coveredelements="79" complexity="0" loc="54" ncloc="54" packages="1" files="2" classes="2"/>
     <file name="index.js" path="/home/mityadem/frontend-testing-react-project-lvl1/src/index.js">
       <metrics statements="43" coveredstatements="43" conditionals="1" coveredconditionals="0" methods="16" coveredmethods="16"/>

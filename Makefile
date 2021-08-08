@@ -10,5 +10,5 @@ lint:
 build:
 	npm build
 
-test-coverage:
-	npm test -s -- --coverage
+cover:
+	npx jest --coverage
