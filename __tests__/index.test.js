@@ -11,16 +11,10 @@ const pagePath = '/courses';
 const requestUrl = 'https://ru.hexlet.io/courses';
 const scope = nock(siteUrl).persist();
 
-beforeAll(() => {
-  nock.disableNetConnect();
-});
-
-afterAll(() => {
-  nock.enableNetConnect();
-});
-
 let tempDir = '';
 let rawData;
+let expectedMainHtml;
+const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
 
 const assets = [{
   requestUrl: '/assets/professions/nodejs.png',
@@ -36,9 +30,18 @@ const assets = [{
   expected: '/expected/main.js',
 }];
 
+beforeAll(async () => {
+  nock.disableNetConnect();
+  rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
+  expectedMainHtml = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
+});
+
+afterAll(() => {
+  nock.enableNetConnect();
+});
+
 beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
-  rawData = await fs.readFile(getFixturePath('ru-hexlet-io-courses.html'), 'utf-8');
   assets.forEach(async (asset) => scope
     .get(asset.requestUrl)
     .reply(200, await fs.readFile(getFixturePath(asset.path))));
@@ -65,15 +68,13 @@ describe('test pageloader — positive cases', () => {
   });
 
   it('should write file correctly', async () => {
-    const expectedData = await fs.readFile(getFixturePath('expected/main.html'), 'utf-8');
-
     scope.get(pagePath).reply(200, rawData);
     const result = await loader(requestUrl, tempDir);
     const { filepath: processedFilepath } = result;
     const processedData = await fs.readFile(processedFilepath, 'utf-8');
 
     expect(rawData).not.toEqual(processedData);
-    expect(processedData).toEqual(expectedData);
+    expect(processedData).toEqual(expectedMainHtml);
   });
 });
 
@@ -84,8 +85,6 @@ describe('test pageloader — negative cases', () => {
   });
 
   it('should throw when can not download resource', async () => {
-    const expectedImage = 'ru-hexlet-io-assets-professions-nodejs.png';
-
     const assetsDir = `${tempDir}/ru-hexlet-io-courses_files`;
 
     scope.get(pagePath).reply(200, rawData);
