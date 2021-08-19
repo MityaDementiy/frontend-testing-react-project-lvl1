@@ -28,6 +28,10 @@ const assets = [{
   requestUrl: '/packs/js/runtime.js',
   path: 'ru-hexlet-io-packs-js-runtime.js',
   expected: '/expected/main.js',
+}, {
+  requestUrl: '/courses',
+  path: 'ru-hexlet-io-courses.html',
+  expected: 'expected/courses.html',
 }];
 
 beforeAll(async () => {
