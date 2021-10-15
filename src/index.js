@@ -8,24 +8,19 @@ import debug from 'debug';
 
 import { urlToDirname, urlToFilename } from './utils';
 
-// В логировании главное - данные, которые помогают отлаживать
 const log = debug('page-loader');
 
-// Диспетчеризация
 const attributeMapping = {
   link: 'href',
   script: 'src',
   img: 'src',
 };
 
-// Обратите внимание на цикломатическую сложность,
-// здесь есть один фильтр и ни одной условной конструкции
 const prepareAssets = (website, baseDirname, html) => {
   const $ = cheerio.load(html, { decodeEntities: false });
   const assets = [];
   Object.entries(attributeMapping).forEach(([tagName, attrName]) => {
     const $elements = $(tagName).toArray();
-    // Очень важная часть: пайплайн, очистка от нелокальных ресурсов
     const elementsWithUrls = $elements.map((element) => $(element))
       .filter(($element) => $element.attr(attrName))
       .map(($element) => ({ $element, url: new URL($element.attr(attrName), website) }))
